@@ -1,6 +1,6 @@
 # Alpakka 3D-print
 
-**Alpakka controller 3D-printed case and buttons reference designs**
+*Alpakka controller 3D-printed case and buttons (reference designs)*
 
 ## Project links
 - [Alpakka Manual](https://inputlabs.io/devices/alpakka/manual).
@@ -9,12 +9,12 @@
 - [Alpakka 3D-print](https://github.com/inputlabs/alpakka_case). _(you are here)_
 
 ## Previews
-<span><img width='250px' src='./alpakka_prints/png/print_A.png'/></span>
-<span><img width='250px' src='./alpakka_prints/png/print_B.png'/></span>
-<span><img width='250px' src='./alpakka_prints/png/print_C.png'/></span>
-<span><img width='250px' src='./alpakka_prints/png/print_D.png'/></span>
-<span><img width='250px' src='./alpakka_prints/png/print_E.png'/></span>
-<span><img width='250px' src='./alpakka_prints/png/print_F.png'/></span>
+<span><img width='250px' src='./prints/png/print_A.png'/></span>
+<span><img width='250px' src='./prints/png/print_B.png'/></span>
+<span><img width='250px' src='./prints/png/print_C.png'/></span>
+<span><img width='250px' src='./prints/png/print_D.png'/></span>
+<span><img width='250px' src='./prints/png/print_E.png'/></span>
+<span><img width='250px' src='./prints/png/print_F.png'/></span>
 
 ## Git LFS
 This project uses Git [Large File Support](https://git-lfs.github.com), so only pointers to the files are handled by Git. You must install LFS to work with the actual files.
