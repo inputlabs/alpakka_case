@@ -1,0 +1,2 @@
+FIT_TIGHT = 1;
+FIT_LOOSE = 2;

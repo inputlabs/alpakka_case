@@ -1,3 +1,6 @@
 [submodule "openscad/BOSL"]
 	path = openscad/BOSL
 	url = https://github.com/revarbat/BOSL.git
+[submodule "openscad/dotSCAD"]
+	path = openscad/dotSCAD
+	url = https://github.com/JustinSDK/dotSCAD
