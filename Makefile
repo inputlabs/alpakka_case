@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2022, Input Labs Oy.
+
 default: release
 
 release: clean stls
@@ -26,3 +29,6 @@ stls: clean
 	blender blender/scrollwheel.blend --background --python scripts/exportwheel.py
 	blender blender/hexagon.blend --background --python scripts/export-z.py
 	blender blender/soldering_stand.blend --background --python scripts/exportstand.py
+
+love:
+	@echo "not war"
