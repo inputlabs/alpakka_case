@@ -10,7 +10,7 @@ clean:
 	rm -rf release/*
 	rm -rf STL/*
 
-stls: clean
+stl: clean
 	blender blender/case_front.blend --background --python scripts/export.py
 	blender blender/case_back.blend --background --python scripts/export-z.py
 	blender blender/trigger_R1.blend --background --python scripts/export.py
@@ -29,6 +29,3 @@ stls: clean
 	blender blender/scrollwheel.blend --background --python scripts/exportwheel.py
 	blender blender/hexagon.blend --background --python scripts/export-z.py
 	blender blender/soldering_stand.blend --background --python scripts/exportstand.py
-
-love:
-	@echo "not war"
