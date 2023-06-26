@@ -41,22 +41,22 @@ def rotation(ob, x=0, y=0, z=0):
 
 entries = [
     Entry('Case front',       'primary_015mm_front'),
-    Entry('Case back',        'secondary_015mm_back', '-Z'),
     Entry('R1',               'primary_015mm_triggersR1'),
     Entry('R2',               'primary_015mm_triggersR2', '-Z'),
     Entry('R4',               'primary_015mm_triggersR4', '-Y', '-Z'),
-    Entry('Anchor',           'any_015mm_anchors_(brim)', '-Z'),
     Entry('DHat',             'primary_015mm_dhat_(brim)'),
+    Entry('Select',           'primary_007mm_select'),
+    Entry('Case back',        'secondary_015mm_back', '-Z'),
+    Entry('Case cover',       'secondary_015mm_cover'),
     Entry('Wheel',            'secondary_015mm_wheel', 'X'),
     Entry('Wheel shaft R',    'secondary_015mm_wheelshaft'),
-    Entry('Wheel support',    'any_015mm_wheelholder'),
     Entry('Abxy',             'secondary_007mm_abxy'),
     Entry('Dpad',             'secondary_007mm_dpad'),
-    Entry('Select',           'primary_007mm_select'),
     Entry('Thumbstick',       'secondary_007mm_thumbstick_(support)'),
     Entry('Home',             'secondary_007mm_home_(support)', transformation=lambda ob: rotation(ob, -8.4)),
-    Entry('Case cover',       'secondary_015mm_cover'),
     Entry('Hexagon R',        'conductive_015mm_hexagon', '-Z'),
+    Entry('Wheel support',    'any_015mm_wheelholder'),
+    Entry('Anchor',           'any_015mm_anchors_(brim)', '-Z'),
     Entry('Soldering helper', 'any_020mm_solderstand', '-Z', collection=True),
 ]
 
