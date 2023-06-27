@@ -25,8 +25,10 @@ class Entry:
             if entry.col_name == name:
                 return entry
 
-    def process(self):
+    def process(self, tolerance=False):
         bpy.ops.object.select_all(action='DESELECT')
+        if tolerance:
+            self.make_loose()
         obs = [o for o in scene.objects if o.type == 'MESH']
         for ob in obs:
             if not ob.visible_get(): continue
@@ -43,6 +45,13 @@ class Entry:
                 ob.select_set(False)
         if self.merge:
             self.export()
+
+    def make_loose(self):
+        obs = [o for o in scene.objects if o.type == 'MESH']
+        for ob in obs:
+            for mod in ob.modifiers:
+                if mod.name == 'Tolerance loose':
+                    mod.show_viewport = True
 
     def export(self):
         root = Path(bpy.path.abspath("//")).parent
@@ -85,4 +94,7 @@ entries = [
 for collection in bpy.data.collections:
     entry = Entry.find(collection.name)
     entry.process()
+    if entry.tolerance:
+        entry.stl_name = f'loose_variants/{entry.stl_name}_loose'
+        entry.process(tolerance=True)
     break
