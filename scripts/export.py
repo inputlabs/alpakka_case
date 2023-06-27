@@ -10,14 +10,14 @@ class Entry:
     def __init__(
             self, col_name, stl_name, axis_up='Z', axis_forward='Y', merge=False,
             multiple=False, transformation=None, tolerance=False):
-        self.col_name = col_name
+        self.col_name = col_name  # Collection name.
         self.stl_name = stl_name
         self.axis_up = axis_up
         self.axis_forward = axis_forward
-        self.merge = merge
-        self.multiple = multiple
+        self.merge = merge  # Export all the objects in the collection merged.
+        self.multiple = multiple  # Multiple individual exports in the collection.
         self.transformation = transformation
-        self.tolerance = tolerance
+        self.tolerance = tolerance  # Export loose variant too.
 
     @staticmethod
     def find(name):
@@ -29,10 +29,8 @@ class Entry:
     def objects(self):
         return [o for o in scene.objects if o.type == 'MESH']
 
-    def process(self, tolerance=False):
+    def process(self):
         bpy.ops.object.select_all(action='DESELECT')
-        if tolerance:
-            self.make_loose()
         for ob in self.objects:
             if not ob.visible_get(): continue
             viewlayer.objects.active = ob
@@ -48,12 +46,17 @@ class Entry:
                 ob.select_set(False)
         if self.merge:
             self.export()
+        if self.tolerance:
+            self.process_loose()
 
-    def make_loose(self):
+    def process_loose(self):
         for ob in self.objects:
             for mod in ob.modifiers:
                 if mod.name == 'Tolerance loose':
                     mod.show_viewport = True
+        self.tolerance = False
+        self.stl_name = f'loose_variants/{entry.stl_name}_loose'
+        self.process()
 
     def export(self):
         root = Path(bpy.path.abspath("//")).parent
@@ -96,7 +99,4 @@ entries = [
 for collection in bpy.data.collections:
     entry = Entry.find(collection.name)
     entry.process()
-    if entry.tolerance:
-        entry.stl_name = f'loose_variants/{entry.stl_name}_loose'
-        entry.process(tolerance=True)
     break
