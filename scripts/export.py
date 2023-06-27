@@ -25,12 +25,15 @@ class Entry:
             if entry.col_name == name:
                 return entry
 
+    @property
+    def objects(self):
+        return [o for o in scene.objects if o.type == 'MESH']
+
     def process(self, tolerance=False):
         bpy.ops.object.select_all(action='DESELECT')
         if tolerance:
             self.make_loose()
-        obs = [o for o in scene.objects if o.type == 'MESH']
-        for ob in obs:
+        for ob in self.objects:
             if not ob.visible_get(): continue
             viewlayer.objects.active = ob
             ob.select_set(True)
@@ -47,8 +50,7 @@ class Entry:
             self.export()
 
     def make_loose(self):
-        obs = [o for o in scene.objects if o.type == 'MESH']
-        for ob in obs:
+        for ob in self.objects:
             for mod in ob.modifiers:
                 if mod.name == 'Tolerance loose':
                     mod.show_viewport = True
