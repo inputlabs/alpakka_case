@@ -6,8 +6,10 @@ BLENDER := 'blender'
 
 default: release
 
-release: clean stls
-	sh -e scripts/release.sh
+release: clean stl
+	mkdir -p release/
+	zip -u release/blender.zip blender/*.blend
+	zip -u release/stl.zip stl/*.stl stl/**/*.stl
 
 clean:
 	rm -rf release/*
