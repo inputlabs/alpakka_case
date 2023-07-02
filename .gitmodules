@@ -4,3 +4,9 @@
 [submodule "openscad/dotSCAD"]
 	path = openscad/dotSCAD
 	url = https://github.com/JustinSDK/dotSCAD
+[submodule "BOSL2"]
+	path = openscad/BOSL2
+	url = https://github.com/BelfrySCAD/BOSL2
+[submodule "openscad/BOSL2"]
+	path = openscad/BOSL2
+	url = https://github.com/BelfrySCAD/BOSL2
