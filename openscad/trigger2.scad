@@ -52,8 +52,15 @@ module _trigger2Base() {
       [baseWidth, baseMiddleLength2],
       [baseTopWidth, baseTopLength],
       h=baseTopHeight, 
-      shift=[0, (baseMiddleLength2-baseTopOffset-baseTopLength)/2],
+      shift=[0, (baseMiddleLength2-baseTopLength)/2-baseTopOffset],
       anchor=FRONT+BOTTOM
+    );
+  move([0,baseLength-baseTopOffset,baseHeight+baseMiddleHeight+baseTopHeight])
+    prismoid(
+      [baseTopWidth, baseTopLength],
+      [5, baseTopLength],
+      h=1,
+      anchor=BACK+BOTTOM
     );
 }
 
@@ -132,6 +139,24 @@ module _trigger2Surface() {
       shift=[0, 0.525],
       anchor=FRONT+BOTTOM
     );
+  
+  skin(
+    [
+      square([baseWidth, surfaceDrafWidth], true),
+      fwd(1,trapezoid(h=surfaceDrafWidth+2, w1=baseWidth, w2=surfaceWidthBottom)),
+      fwd(0.25-0.025/2, trapezoid(h=5.525, w1=13, w2=9))
+    ],
+    z=[0, surfaceHightBottom, surfaceHightBottom+surfaceHightMiddle],
+    slices=0,
+    style="convex", 
+    anchor=FRONT+BOTTOM
+  );
+  
+  
+  up(surfaceHightBottom+surfaceHightMiddle) fwd(1) skin([
+    trapezoid(h=5.525, w1=13, w2=9),
+    back(1.5, square([5, 2.525], true))
+  ], z=[0, surfaceHightMiddle], slices=0, anchor=FRONT+BOTTOM);
 }
 
 module trigger2() {
