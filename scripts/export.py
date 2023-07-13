@@ -53,9 +53,9 @@ class Entry:
         for ob in self.objects:
             for mod in ob.modifiers:
                 if mod.name == 'Tolerance loose':
-                    mod.show_viewport = True
+                    mod.show_viewport = False
         self.tolerance = False
-        self.stl_name = f'loose_variants/{entry.stl_name}_loose'
+        self.stl_name = f'tightness_variants/{entry.stl_name}_tight'
         self.process()
 
     def export(self):
