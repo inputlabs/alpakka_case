@@ -15,7 +15,6 @@ clean:
 	rm -rf release/*
 	rm -rf stl/*
 	mkdir -p stl
-	mkdir -p stl/tightness_variants
 
 stl: clean
 	$(BLENDER) blender/case_front.blend --background --python scripts/export.py
