@@ -68,7 +68,7 @@ with BuildPart() as anchor:
             make_face()
         extrude(amount=BOTTOM_CUTOUT_WIDTH)
 
-    with BuildSketch(Location((TOP_WIDTH / 2, TOP_DEPTH / 2, TOP_HEIGHT - NUT_THICKNESS))) as poly_sk:
+    with BuildSketch(Location((TOP_WIDTH / 2, TOP_DEPTH / 2, TOP_HEIGHT - NUT_THICKNESS))):
         RegularPolygon((NUT_WIDTH + NUT_TOLERANCE) / 2, 6, major_radius=False)
     extrude(amount=NUT_THICKNESS, mode=Mode.SUBTRACT)
 
