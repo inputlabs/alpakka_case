@@ -22,7 +22,7 @@ CHAMFER = 1
 
 NUT_THICKNESS = 2.3 # should be 1.75 according to https://www.engineersedge.com/hardware/standard_metric_hex_nuts_13728.htm
 NUT_WIDTH = 5 # across flats for M2.5 x 0.45
-NUT_TOLERANCE = 0.181
+NUT_TOLERANCE = +0.181
 
 BOLT_HOLE_RAD = 1.3
 
@@ -41,7 +41,7 @@ BOTTOM_CUTOUT_PTS = ((6, 0),
     (6, 4),
     (6, 0))
 
-FDM_BRIDGE_THICKNESS = 0.2 # only for FDM printing, otherwise set to 0
+FDM_BRIDGE_THICKNESS = 0.2 # only for FDM printing, otherwise set to 0.0
 
 
 with BuildPart() as anchor:
@@ -69,7 +69,7 @@ with BuildPart() as anchor:
         extrude(amount=BOTTOM_CUTOUT_WIDTH)
 
     with BuildSketch(Location((TOP_WIDTH / 2, TOP_DEPTH / 2, TOP_HEIGHT - NUT_THICKNESS))) as poly_sk:
-        RegularPolygon((NUT_WIDTH + NUT_TOLERANCE) / 2, 6)
+        RegularPolygon((NUT_WIDTH + NUT_TOLERANCE) / 2, 6, major_radius=False)
     extrude(amount=NUT_THICKNESS, mode=Mode.SUBTRACT)
 
     with Locations(Location((TOP_WIDTH / 2, TOP_DEPTH / 2, (TOP_HEIGHT + BOTTOM_HEIGHT) / 2))):
