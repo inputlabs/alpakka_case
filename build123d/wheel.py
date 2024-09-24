@@ -5,11 +5,6 @@ from build123d import (
     add, chamfer, edges, extrude, make_face, mirror, offset, split
 )
 
-try:
-    from ocp_vscode import show_object
-except ModuleNotFoundError:
-    pass
-
 # Wheel
 WHEEL_INDENTS = 24
 WHEEL_RADIUS_OUTER = 10.75
@@ -118,7 +113,13 @@ with BuildPart() as holder:
     extrude(amount=-HOLDER_WIDTH)
 
 
+# __main__ => show in VSCode
+# temp     => show in CQEditor
+
 if __name__ in ['__main__', 'temp']:
+    if __name__ == '__main__':
+        from ocp_vscode import show_object
+
     show_object(wheel)
     show_object(core)
     show_object(holder)
