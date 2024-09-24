@@ -4,11 +4,6 @@ from build123d import (
     mirror, make_face, edges, extrude, fillet, chamfer, split, faces, add, loft)
 
 
-try:
-    from ocp_vscode import show_object
-except ModuleNotFoundError:
-    pass
-
 # top
 TOP_WIDTH = 8
 TOP_DEPTH = 8
@@ -24,7 +19,7 @@ NUT_THICKNESS = 2.3 # should be 1.75 according to https://www.engineersedge.com/
 NUT_WIDTH = 5 # across flats for M2.5 x 0.45
 NUT_TOLERANCE = +0.181
 
-BOLT_HOLE_RAD = 1.3
+BOLT_HOLE_RADIUS = 1.3
 
 # bottom
 BOTTOM_WIDTH = 7
@@ -45,6 +40,7 @@ FDM_BRIDGE_THICKNESS = 0.2 # only for FDM printing, otherwise set to 0.0
 
 
 with BuildPart() as anchor:
+    #Top
     with BuildSketch(Plane.YZ):
         with BuildLine():
             Polyline(TOP_PTS)
@@ -54,30 +50,49 @@ with BuildPart() as anchor:
     edge_list = edges().filter_by(Axis.Z)
     chamfer(edge_list, CHAMFER)
 
+    # Remove cutout for nut
+    location = Location((TOP_WIDTH / 2, # align center
+        TOP_DEPTH / 2, # align center
+        TOP_HEIGHT - NUT_THICKNESS))
+    with BuildSketch(location):
+        RegularPolygon((NUT_WIDTH + NUT_TOLERANCE) / 2, 6, major_radius=False)
+    extrude(amount=NUT_THICKNESS, mode=Mode.SUBTRACT)
 
-    with BuildSketch(Plane.YZ.offset((TOP_WIDTH - BOTTOM_WIDTH) / 2)):
+    # Remove cutout for bolt
+    location = Location((TOP_WIDTH / 2, # align center
+        TOP_DEPTH / 2,  # align center
+        (TOP_HEIGHT + BOTTOM_HEIGHT) / 2))
+    with Locations(location):
+        Cylinder(BOLT_HOLE_RADIUS, TOP_HEIGHT - BOTTOM_HEIGHT, mode=Mode.SUBTRACT)
+
+    # Additional cutout to generate bridge for FDP printing
+    if FDM_BRIDGE_THICKNESS > 0:
+        location = Location((TOP_WIDTH / 2, # align center
+            TOP_DEPTH / 2, # align center
+            (TOP_HEIGHT + BOTTOM_HEIGHT) / 2 - FDM_BRIDGE_THICKNESS))
+        with Locations(location):
+            Box(BOLT_HOLE_RADIUS * 2,
+                NUT_WIDTH + NUT_TOLERANCE,
+                FDM_BRIDGE_THICKNESS,
+                mode=Mode.SUBTRACT)
+
+
+    # Bottom
+    plane = Plane.YZ.offset((TOP_WIDTH - BOTTOM_WIDTH) / 2)
+    with BuildSketch(plane):
         with BuildLine():
             Polyline(BOTTOM_PTS)
         make_face()
     extrude(amount=BOTTOM_WIDTH)
 
     with BuildPart(mode=Mode.SUBTRACT):
-        with BuildSketch(Plane.YZ.offset(TOP_WIDTH - BOTTOM_WIDTH + BOTTOM_CUTOUT_WIDTH / 2)):
+        plane = Plane.YZ.offset(TOP_WIDTH - BOTTOM_WIDTH + BOTTOM_CUTOUT_WIDTH / 2)
+        with BuildSketch(plane):
             with BuildLine():
                 Polyline(BOTTOM_CUTOUT_PTS)
             make_face()
         extrude(amount=BOTTOM_CUTOUT_WIDTH)
 
-    with BuildSketch(Location((TOP_WIDTH / 2, TOP_DEPTH / 2, TOP_HEIGHT - NUT_THICKNESS))):
-        RegularPolygon((NUT_WIDTH + NUT_TOLERANCE) / 2, 6, major_radius=False)
-    extrude(amount=NUT_THICKNESS, mode=Mode.SUBTRACT)
-
-    with Locations(Location((TOP_WIDTH / 2, TOP_DEPTH / 2, (TOP_HEIGHT + BOTTOM_HEIGHT) / 2))):
-        Cylinder(BOLT_HOLE_RAD, TOP_HEIGHT - BOTTOM_HEIGHT, mode=Mode.SUBTRACT)
-
-    if FDM_BRIDGE_THICKNESS > 0:
-        with Locations(Location((TOP_WIDTH / 2, TOP_DEPTH / 2, (TOP_HEIGHT + BOTTOM_HEIGHT) / 2 - 0.25))):
-            Box(BOLT_HOLE_RAD * 2, (NUT_WIDTH + NUT_TOLERANCE), FDM_BRIDGE_THICKNESS, mode=Mode.SUBTRACT)
 
 
 
