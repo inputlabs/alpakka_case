@@ -8,6 +8,7 @@ from trigger_r1 import trigger_r1
 from button_select import button_select
 from button_dpad import button_dpad
 from cover import cover
+from anchor import anchor
 from button_abxy import button_abxy
 
 STL_DIR = 'stl/'
@@ -34,3 +35,6 @@ export(holder.part, 'any_015mm_wheel_holder')
 
 # Battery Cover.
 export(cover.part, 'secondary_015mm_cover')
+
+# Anchor.
+export(anchor.part, 'any_015mm_anchors_2x')
