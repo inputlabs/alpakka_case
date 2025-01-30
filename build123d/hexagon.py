@@ -14,7 +14,11 @@ TRAPEZ_X_LEN = math.sqrt(10**2 + 10**2)  # Diagonal of 10x10 (Blender legacy).
 TRAPEZ_Z_LEN = 18
 TRAPEZ_TIP = 2.2
 
-TABS_Z_LEN = 4
+ALIGN_TAB_Z_LEN = 4
+
+FIT_TAB_RADIUS = 1.7
+FIT_TAB_X = 8
+FIT_TAB_Z = 2
 
 
 with BuildPart() as chex:
@@ -54,12 +58,18 @@ with BuildPart() as chex:
                 mirror(about=Plane.YZ)
             make_face()
         extrude(amount=TRAPEZ_THICKNESS/2, both=True)
+        # Fit tabs.
+        with Locations((FIT_TAB_X, 0, FIT_TAB_Z)):
+            Sphere(FIT_TAB_RADIUS)
+        with Locations((-FIT_TAB_X, 0, FIT_TAB_Z)):
+            Sphere(FIT_TAB_RADIUS)
+    # Place Trapezoid instances.
     with Locations((0, 0, BASE_Z_LEN)):
         add(trapezoid_pt, rotation=(0, 0, -45))
         add(trapezoid_pt, rotation=(0, 0, 45))
 
-    # Tabs (to prevent wrong insertion).
-    tab_z = TRAPEZ_Z_LEN - TABS_Z_LEN
+    # Align Tabs (to prevent wrong insertion).
+    tab_z = TRAPEZ_Z_LEN - ALIGN_TAB_Z_LEN
     normal = Axis(origin=(0,0,0), direction=(1,1,0))
     face1 = (chex.faces()
         .filter_by(normal)[1]
