@@ -16,7 +16,7 @@ TRAPEZ_TIP = 2.2
 
 ALIGN_TAB_Z_LEN = 4
 
-FIT_TAB_RADIUS = 1.7
+FIT_TAB_RADIUS = 1.6
 FIT_TAB_X = 8
 FIT_TAB_Z = 2
 
@@ -72,11 +72,13 @@ with BuildPart() as chex:
     tab_z = TRAPEZ_Z_LEN - ALIGN_TAB_Z_LEN
     normal = Axis(origin=(0,0,0), direction=(1,1,0))
     face1 = (chex.faces()
-        .filter_by(normal)[1]
+        .filter_by(normal)
+        .sort_by(Axis.Y)[1]
         .split(Plane.XY.offset(tab_z), keep=Keep.TOP)
     )
     face2 = (chex.faces()
-        .filter_by(normal)[3]
+        .filter_by(normal)
+        .sort_by(Axis.Y)[2]
         .split(Plane.XY.offset(tab_z), keep=Keep.TOP)
     )
     extrude(face1, until=Until.NEXT, dir=(0,1,0))
