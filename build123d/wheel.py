@@ -25,6 +25,7 @@ LEFT_SLOT_DEPTH = WHEEL_WIDTH - RIGHT_HOLE_DEPTH
 LEFT_SLOT_TOLERANCE_DEFAULT = 0.00
 LEFT_SLOT_TOLERANCE_LOOSE = 0.05
 LEFT_SLOT_TOLERANCE_TIGHT = -0.05
+LEFT_SLOT_TOLERANCE_SEMI_TIGHT = -0.025
 
 
 def build_wheel(LEFT_SLOT_TOLERANCE):
@@ -73,15 +74,16 @@ def build_wheel(LEFT_SLOT_TOLERANCE):
 wheel_default = build_wheel(LEFT_SLOT_TOLERANCE_DEFAULT)
 wheel_loose = build_wheel(LEFT_SLOT_TOLERANCE_LOOSE)
 wheel_tight = build_wheel(LEFT_SLOT_TOLERANCE_TIGHT)
+wheel_semi_tight = build_wheel(LEFT_SLOT_TOLERANCE_SEMI_TIGHT)
 
 
 if __name__ == '__main__':
     from common.vscode import show_object
     from wheel_holder import holder
     from wheel_core import core
-    show_object(wheel_default, name='Wheel')
-    show_object(holder, name='Holder')
-    show_object(core, name='Core')
-    # export_stl(wheel.part, 'stl/test_wheel.stl')
+    show_object(wheel_semi_tight, name='Wheel')
+#    show_object(holder, name='Holder')
+#    show_object(core, name='Core')
+    export_stl(wheel_semi_tight.part, 'test_wheel_st.stl')
     # export_stl(support.part, 'stl/test_support.stl')
     # export_stl(core.part, 'stl/test_core.stl')

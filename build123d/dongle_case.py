@@ -1,6 +1,6 @@
 from build123d import (
     BuildPart, BuildSketch, BuildLine, Polyline, Plane, Rectangle, Locations,
-    Mode, Circle, Align, extrude, mirror, make_face
+    Mode, Circle, Align, extrude, mirror, make_face, export_stl
 )
 
 THICKNESS_AROUND = 1.2
@@ -48,6 +48,18 @@ MAIN_PTS_INNER = (
     (-PCB_WIDTH/2 - TOLERANCE_WIDTH, THICKNESS_AROUND - TOLERANCE_HEIGHT)
 )
 
+SUPPORT_PTS = (
+    (0, 0),
+    (10, 0),
+    (10, 20),
+    (0, 20)
+)
+
+SUPPORT_WIDTH = 0.4
+SUPPORT_INTERFACE_INTERVAL = 0.4
+LAYER_HEIGHT = 0.2
+
+BUTTON_INSET = 14.3
 
 with BuildPart() as dongle_case:
     # Main body
@@ -119,8 +131,19 @@ with BuildPart() as dongle_case:
         make_face()
     extrude(amount=PCB_THICKNESS/2, mode=Mode.SUBTRACT)
 
+    # Support
+    with BuildSketch(Plane.YZ):
+        with BuildLine():
+            Polyline(SUPPORT_PTS)
+            mirror(about=Plane.YZ)
+        make_face()
+    extrude(amount=SUPPORT_WIDTH)
+
+
 
 if __name__ == '__main__':
     from common.vscode import show_object
     show_object(dongle_case)
     print(f"Volume: {dongle_case.part.volume}")
+
+export_stl(dongle_case.part, "dongle_case_support.stl")

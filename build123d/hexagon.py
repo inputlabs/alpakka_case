@@ -72,6 +72,9 @@ with BuildPart() as chex:
     extrude(face1, until=Until.NEXT, dir=(0,1,0))
     extrude(face2, until=Until.NEXT, dir=(0,-1,0))
 
+    with Locations((0, 0, 8)):
+        Sphere(radius = 2)
+
 
 if __name__ == '__main__':
     from common.vscode import show_object
